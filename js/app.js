@@ -35,11 +35,9 @@ class Tasks {
 
     }
     addToList(value) {
-        if (value.length <= 15) {
-            alert('it should be to easy for you :)')
-        } else if (value.length >= 30) {
-            alert('Please write less This costs our servers! :))')
-        } else {
+        if (value.length >= 30) {
+            alert('please write less then 30 char !')
+        }else {
             this.tasks.push(new Task(value))
             this.saveToLocalStorage()
             location.reload()
