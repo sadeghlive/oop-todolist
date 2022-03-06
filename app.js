@@ -1,3 +1,4 @@
+
 class Task {
     constructor(text) {
         this.text = text
@@ -33,8 +34,10 @@ class Tasks {
 
     }
     addToList(value) {
-        if (value.length <= 15) {
+        if (value.length <= 15 ) {
             alert('it should be to easy for you :)')
+        }else if(value.length >= 30){
+            alert('Please write less This costs our servers! :))')
         } else {
             this.tasks.push(new Task(value))
             this.saveToLocalStorage()
@@ -43,40 +46,48 @@ class Tasks {
     saveToLocalStorage() {
         localStorage.setItem('tasks', JSON.stringify(this.tasks))
     }
-    createRemoveBTN(parent) {
+    createUpdateDeleteBTN(parent) {
         const rmBTN = document.createElement('a')
-        rmBTN.className = 'li-button'
+        rmBTN.classList.add('li-button','remove-button')
         rmBTN.innerHTML = 'X'
         const editBTN = document.createElement('a')
-        editBTN.className = 'li-button'
+        editBTN.classList.add('li-button')
         editBTN.innerHTML = '<i class="lni lni-paperclip"></i>'
-        parent.append(rmBTN)
-        parent.append(editBTN)
-        this.removeFromListButton(rmBTN)
-    }
-    removeFromListButton(rmBTN) {
-        rmBTN.addEventListener('click', ((e) => {
-            let text = e.target.parentElement.textContent.slice(0,-1)
-            this.tasks.forEach((todo,todoIndex)=>{
-               if(todo.text === text){
-                   console.log(todoIndex)
-               }
-            })
-            
-        }))
-    }
+        parent.append(rmBTN,editBTN)
+        this.removeUpdate(rmBTN)
+        this.removeUpdate(editBTN)
 
+    }
     showPastTasks() {
         const ul = document.createElement('ul')
         const pastTodos = document.getElementById('pasttodos')
         pastTodos.append(ul)
         this.tasks.reverse()
-        .map((todo) => {
-            const li = document.createElement('li')
-            li.textContent = todo.text
-            this.createRemoveBTN(li)
-            ul.append(li)
-        })
+            .map((todo) => {
+                const li = document.createElement('li')
+                li.textContent = todo.text
+                this.createUpdateDeleteBTN(li)
+                ul.append(li)
+            })
+    }
+    editTodo(text){
+        let indexOfSelectedTodo = this.tasks.findIndex(task => task.text === text)
+        let newText = prompt('insert your change :)')
+        this.tasks[indexOfSelectedTodo].text = newText
+        this.saveToLocalStorage()
+        
+    }
+    removeUpdate(BTN){
+        BTN.addEventListener('click',(()=>{
+            let text = BTN.parentElement.textContent.slice(0,-1)
+            let indexOfSelectedTodo = this.tasks.findIndex(task => task.text === text)
+            if(BTN.classList.contains('remove-button')){
+                this.tasks.splice(indexOfSelectedTodo,1)
+                this.saveToLocalStorage()
+            }else{
+                this.editTodo(text)
+            }
+        }))
     }
 }
 
