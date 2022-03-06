@@ -10,6 +10,7 @@ class Tasks {
     constructor() {
         this.inputPlace = document.querySelector('#input')
         this.tasks = JSON.parse(localStorage.getItem('tasks')) || []
+        this.completeTask
         this.render()
     }
     render() {
@@ -34,13 +35,14 @@ class Tasks {
 
     }
     addToList(value) {
-        if (value.length <= 15 ) {
+        if (value.length <= 15) {
             alert('it should be to easy for you :)')
-        }else if(value.length >= 30){
+        } else if (value.length >= 30) {
             alert('Please write less This costs our servers! :))')
         } else {
             this.tasks.push(new Task(value))
             this.saveToLocalStorage()
+            location.reload()
         }
     }
     saveToLocalStorage() {
@@ -48,12 +50,12 @@ class Tasks {
     }
     createUpdateDeleteBTN(parent) {
         const rmBTN = document.createElement('a')
-        rmBTN.classList.add('li-button','remove-button')
+        rmBTN.classList.add('li-button', 'remove-button')
         rmBTN.innerHTML = 'X'
         const editBTN = document.createElement('a')
         editBTN.classList.add('li-button')
         editBTN.innerHTML = '<i class="lni lni-paperclip"></i>'
-        parent.append(rmBTN,editBTN)
+        parent.append(rmBTN, editBTN)
         this.removeUpdate(rmBTN)
         this.removeUpdate(editBTN)
 
@@ -70,23 +72,24 @@ class Tasks {
                 ul.append(li)
             })
     }
-    editTodo(text){
+    editTodo(text) {
         let indexOfSelectedTodo = this.tasks.findIndex(task => task.text === text)
         let newText = prompt('insert your change :)')
         this.tasks[indexOfSelectedTodo].text = newText
-        this.saveToLocalStorage()
-        
+
     }
-    removeUpdate(BTN){
-        BTN.addEventListener('click',(()=>{
-            let text = BTN.parentElement.textContent.slice(0,-1)
+    removeUpdate(BTN) {
+        BTN.addEventListener('click', (() => {
+            let text = BTN.parentElement.textContent.slice(0, -1)
             let indexOfSelectedTodo = this.tasks.findIndex(task => task.text === text)
-            if(BTN.classList.contains('remove-button')){
-                this.tasks.splice(indexOfSelectedTodo,1)
-                this.saveToLocalStorage()
-            }else{
+            if (BTN.classList.contains('remove-button')) {
+                this.tasks.splice(indexOfSelectedTodo, 1)
+            } else {
                 this.editTodo(text)
             }
+            this.saveToLocalStorage()
+            location.reload()
+
         }))
     }
 }
