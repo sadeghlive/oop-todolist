@@ -71,6 +71,11 @@ class Tasks {
                 this.createUpdateDeleteBTN(li)
                 ul.append(li)
             })
+        if(this.tasks.length == 0){
+            let test = document.createElement('h3')
+                test.innerHTML = '<i class="lni lni-empty-file"></i> your todo List is empty ! you can add some thing now...'
+            pastTodos.append(test)
+        }
     }
     editTodo(text) {
         let indexOfSelectedTodo = this.tasks.findIndex(task => task.text === text)
