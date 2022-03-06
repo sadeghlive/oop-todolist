@@ -5,4 +5,4 @@ This is a todo list with a minimum line of class base and oop JavaScript code ðŸ
 You can add or remove and update your tasks and enjoy it : )
 I will be rewriting this project with React soon
 
-![enter image description here](https://s6.uupload.ir/files/test_4ava.png)u
+![enter image description here](https://s6.uupload.ir/files/test_4ava.png)
